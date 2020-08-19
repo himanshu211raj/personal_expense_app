@@ -25,7 +25,7 @@ class Chart extends StatelessWidget {
       }
 
       print(
-        DateFormat.E().format(weekDay),
+        DateFormat.E().format(weekDay), //test code github
       );
       print(totalSum);
 
