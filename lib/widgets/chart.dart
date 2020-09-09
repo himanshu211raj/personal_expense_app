@@ -16,7 +16,7 @@ class Chart extends StatelessWidget {
       final weekDay = DateTime.now().subtract(
         Duration(days: index),
       );
-      double totalSum = 0.0;
+      var totalSum = 0.0;
 
       for (var i = 0; i < recentTransactions.length; i++) {
         if (recentTransactions[i].date.day == weekDay.day &&
@@ -25,11 +25,6 @@ class Chart extends StatelessWidget {
           totalSum += recentTransactions[i].amount;
         }
       }
-
-      print(
-        DateFormat.E().format(weekDay),
-      );
-      print(totalSum);
 
       return {
         'day': DateFormat.E().format(weekDay).substring(0, 1),
@@ -40,14 +35,13 @@ class Chart extends StatelessWidget {
 
   double get totalSpending {
     return groupedTransactionValues.fold(0.0, (sum, item) {
-      return sum = item['amount'];
+      return sum + item['amount'];
     });
   }
 
   @override
   Widget build(BuildContext context) {
     print('build() Chart');
-    print(groupedTransactionValues);
     return Card(
       elevation: 6,
       margin: EdgeInsets.all(20),
@@ -55,20 +49,18 @@ class Chart extends StatelessWidget {
         padding: EdgeInsets.all(10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: groupedTransactionValues.map(
-            (data) {
-              return Flexible(
-                fit: FlexFit.tight,
-                child: ChartBar(
-                  data['day'],
-                  data['amount'],
-                  totalSpending == 0.0
-                      ? 0.0
-                      : (data['amount'] as double) / totalSpending,
-                ),
-              );
-            },
-          ).toList(),
+          children: groupedTransactionValues.map((data) {
+            return Flexible(
+              fit: FlexFit.tight,
+              child: ChartBar(
+                data['day'],
+                data['amount'],
+                totalSpending == 0.0
+                    ? 0.0
+                    : (data['amount'] as double) / totalSpending,
+              ),
+            );
+          }).toList(),
         ),
       ),
     );
